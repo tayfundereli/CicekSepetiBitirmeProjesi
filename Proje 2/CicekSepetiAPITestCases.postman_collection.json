@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "452befd8-7773-4ba3-be52-0b42d89c1f43",
+		"name": "CicekSepetiAPITestCases",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SignUp/Succes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json(); \r",
+							"\r",
+							"pm.test(\"Succes SignUp\", function() { \r",
+							"    pm.expect(jsonData.access_token).not.eq(undefined);\r",
+							"});\r",
+							"pm.test(\"Status code should be 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun.dereli@apitest.com\",\r\n  \"password\": \"testpassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Long Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be 20 caracter warning\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password must be shorter than or equal to 20 characters\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test1.com\",\r\n  \"password\": \"123123123123123123123123123123123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Short Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be 8 caracter warning\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password must be longer than or equal to 8 characters\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test1.com\",\r\n  \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 409\", function () {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be User already exist!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"User already exist!\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Conflict\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Conflict\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test1.com\",\r\n  \"password\": \"tayfun123qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be password should not be empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"password should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test.com\",\r\n  \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Empty Mail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be email should not be empty\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"email should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"tayfun123qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Invalid Mail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be email must be an email!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"email must be an email\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"1231323213\",\r\n  \"password\": \"tayfun123qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignUp/Empty Mail-Empty Pw",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be email must be an email and password!\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"email must be an email\",\"password should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error text should be Bad Request\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signup",
+					"host": [
+						"{{baseUrl}}signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn/Fail Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be Unauthorized\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test.com\",\r\n  \"password\": \"1233\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signin",
+					"host": [
+						"{{baseUrl}}signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn/Success Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json(); \r",
+							"\r",
+							"pm.test(\"Succes SignIn\", function() { \r",
+							"    pm.expect(jsonData.access_token).not.eq(undefined);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test.com\",\r\n  \"password\": \"tayfun123qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signin",
+					"host": [
+						"{{baseUrl}}signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn/Empty Mail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be Unauthorized\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"tayfun123qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signin",
+					"host": [
+						"{{baseUrl}}signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn/Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be Unauthorized\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tayfun@test.com\",\r\n  \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signin",
+					"host": [
+						"{{baseUrl}}signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SignIn/Empty Mail-Empty Pw",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message text should be Unauthorized\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"\",\r\n  \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}signin",
+					"host": [
+						"{{baseUrl}}signin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
